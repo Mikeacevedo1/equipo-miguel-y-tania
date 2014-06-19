@@ -1,0 +1,36 @@
+<?php
+	include_once("settings/settings.inc.php");
+	$conexion=@mysql_connect(SQL_HOST, SQL_USER, SQL_PWD);
+	$db = @mysql_select_db(SQL_DB, $conexion) or die(mysql_error());
+
+	//Editar un Cometario
+	if (isset($_GET['idtema'])) {
+		$idtem=$_GET['idtema'];
+		$conexion=@mysql_connect(SQL_HOST, SQL_USER, SQL_PWD);
+		@mysql_select_db(SQL_DB, $conexion) or die(mysql_error());
+		$sql_editar= "SELECT * FROM temas where id='".$idtem."';";
+		$recordset1= mysql_query($sql_editar, $conexion) or die (mysql_error());
+		$recordset= mysql_fetch_array($recordset1);
+		$contenido=$recordset['tema'];
+		$iddetema=$recordset['id'];
+	}
+	else {
+		$contenido="";
+		$iddetema=0;
+	}
+ ?>
+<!DOCTYPE HTML>
+<META CHARSET="UTF-8">
+<html>
+	<BODY BGCOLOR="aqua">
+		<form action="editartema.php" method="POST" name="tema">
+				<tr><td>Edita tu tema</td></tr><br>
+				<tr><td><input type="hidden" name="iddetema" value="<?php echo $iddetema; ?>"></td></tr>
+				<tr><td><input type="hidden" name="iddetema" value="<?php echo $_GET['txttema']; ?>"></td></tr>
+				<tr><td><textarea name="contenido" id="contenido" cols="70" rows="3" placeholder="Presiona para insertar tu texto o contenido"><?php echo $contenido; ?></textarea></td></tr>
+				<tr><td align="center"><input type="submit" value="editar"></td></tr>
+			</table>
+		</form>
+	</body>
+</html>
+<form action="">
